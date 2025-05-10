@@ -67,7 +67,8 @@ gameLoop game = do
       do
         putStrLn (show result)
         case result of
-          Equal => pure ()
+          Equal => putStrLn "It took you \{show (game.tries + 1)} tries."
+
           _ => gameLoop (incrementTry game)
 
     _ => gameLoop (incrementTry game)
