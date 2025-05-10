@@ -75,6 +75,7 @@ gameLoop game = do
 
 main : IO ()
 main = do
+  putStrLn "Guess a number between 0 and 100."
   game <- newGame
   gameLoop game
 
