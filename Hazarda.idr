@@ -59,19 +59,17 @@ gameLoop : Game -> IO ()
 gameLoop game = do
   guess <- getGuess
   putStrLn (show guess)
-  case guess of
-    Quit => putStrLn "The answer was \{show game.answer}."
 
-    Number guess =>
-      let result = checkGuess guess game in
-      do
-        putStrLn (show result)
-        case result of
-          Equal => putStrLn "It took you \{show (game.tries + 1)} tries."
+  Number guess <- pure guess
+    | Quit => putStrLn "The answer was \{show game.answer}."
+    | _ => gameLoop game
 
-          _ => gameLoop $ incrementTry game
+  result <- pure $ checkGuess guess game
+  putStrLn (show result)
 
-    _ => gameLoop (incrementTry game)
+  Equal <- pure result
+    | _ => gameLoop $ incrementTry game
+  putStrLn "It took you \{show (game.tries + 1)} tries."
 
 main : IO ()
 main = do
