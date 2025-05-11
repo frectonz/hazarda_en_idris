@@ -60,7 +60,7 @@ gameLoop game = do
   guess <- getGuess
   putStrLn (show guess)
   case guess of
-    Quit => pure ()
+    Quit => putStrLn "The answer was \{show game.answer}."
 
     Number guess =>
       let result = checkGuess guess game in
@@ -69,7 +69,7 @@ gameLoop game = do
         case result of
           Equal => putStrLn "It took you \{show (game.tries + 1)} tries."
 
-          _ => gameLoop (incrementTry game)
+          _ => gameLoop $ incrementTry game
 
     _ => gameLoop (incrementTry game)
 
